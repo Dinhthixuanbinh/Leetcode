@@ -4,17 +4,12 @@ class Solution(object):
         :type s: str
         :rtype: int
         """
-        count_list =[]
-        max_len = 0
-        for word in s:
-            if word not in count_list :
-                count_list.append(word)
-            else:
+        start = result = 0
+        seen = {}
+        for i, letter in enumerate(s):
+            if seen.get(letter, -1) >= start:
                 
-                if len(count_list) > max_len:
-                    max_len = len(count_list) 
-                del count_list[: count_list.index(word)+1]
-                count_list.append(word)
-        if len(count_list) > max_len:
-            max_len = len(count_list)
-        return max_len
+                start = seen[letter] + 1
+            result = max(result, i - start + 1)
+            seen[letter] = i
+        return result
