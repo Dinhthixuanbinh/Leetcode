@@ -1,3 +1,8 @@
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 class Solution(object):
     def addTwoNumbers(self, l1, l2):
         """
@@ -5,31 +10,23 @@ class Solution(object):
         :type l2: ListNode
         :rtype: ListNode
         """
-        num1 = self.get_number_from_list(l1)
-        num2 = self.get_number_from_list(l2)
+        carry = 0
+        dummy = ListNode()
+        current = dummy
 
-        total = num1 + num2
+        while l1 or l2 or carry:
+            sum_val = carry
 
-        result = ListNode(0)
-        current = result
+            if l1:
+                sum_val += l1.val
+                l1 = l1.next
+            if l2:
+                sum_val += l2.val
+                l2 = l2.next
 
-        # Convert the total to a linked list
-        for digit in str(total)[::-1]:
-            current.next = ListNode(int(digit))
+            carry = sum_val // 10
+            current.next = ListNode(sum_val % 10)
             current = current.next
 
-        return result.next
-
-    def get_number_from_list(self, lst):
-        """
-        Helper function to convert a linked list to an integer.
-        """
-        result = 0
-        multiplier = 1
-
-        while lst:
-            result += lst.val * multiplier
-            multiplier *= 10
-            lst = lst.next
-
-        return result
+        return dummy.next
+        
